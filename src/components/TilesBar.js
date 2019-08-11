@@ -21,15 +21,20 @@ function TilesBar({
       horizontal={true}
       data={tiles}
       keyExtractor={keyExtractor}
+      extraData={{ currentTileBackground, selectedTile }}
       renderItem={({ item }) => {
+        const isSelected = selectedTile === item;
+        const backgroundColor = isSelected
+          ? currentTileBackground
+          : Colors.none;
+
         return (
           <Tile
             key={item}
             symbol={item}
-            isSelected={selectedTile === item}
-            bgColor={currentTileBackground}
+            backgroundColor={backgroundColor}
             onSelect={onSelect}
-            separation={{ marginRight: 2 }}
+            style={{ marginRight: 2 }}
           />
         );
       }}

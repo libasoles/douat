@@ -1,5 +1,5 @@
-import React from "react";
-import { StyleSheet, View } from "react-native";
+import React, { useState } from "react";
+import { StatusBar, StyleSheet, View } from "react-native";
 
 import Toolbar from "./components/Toolbar";
 import TilesBar from "./components/TilesBar";
@@ -8,28 +8,44 @@ import tiles from "./config/tiles";
 import Canvas from "./components/Canvas";
 import config from "./config";
 import ColorPalette from "./components/ColorPalette";
+import { noAction } from "./helpers/noAction";
+
+function getDefaultColor() {
+  return config.palette[0];
+}
+
+function getDefaultTile() {
+  return tiles[0];
+}
 
 const App = () => {
-  let currentColor = Colors.black;
-  let selectedTile = " ";
+  const defaultColor = getDefaultColor();
+  const defaultTile = getDefaultTile();
+  const [currentColor, selectColor] = useState(defaultColor);
+  const [currentTile, selectTile] = useState(defaultTile);
 
   return (
     <View style={styles.container}>
-      <Toolbar />
+      <Toolbar
+        reset={noAction}
+        undo={noAction}
+        download={noAction}
+        share={noAction}
+      />
       <ColorPalette
         colors={config.palette}
         selectedColor={currentColor}
-        onSelect={() => {}}
+        onSelect={selectColor}
       />
       <View style={styles.canvas}>
         <Canvas backgroundColor={currentColor} frontColor={Colors.white} />
       </View>
       <View style={styles.tilesBar}>
         <TilesBar
-          onSelect={() => {}}
-          currentTileBackground={currentColor}
           tiles={tiles}
-          selectedTile={selectedTile}
+          selectedTile={currentTile}
+          onSelect={selectTile}
+          currentTileBackground={currentColor}
         />
       </View>
     </View>
@@ -40,7 +56,6 @@ const styles = StyleSheet.create({
   container: {
     display: "flex",
     flex: 1,
-    paddingTop: 20,
     backgroundColor: Colors.dark,
     padding: 2,
     fontSize: 20

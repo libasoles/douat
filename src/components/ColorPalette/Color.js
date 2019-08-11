@@ -4,16 +4,20 @@ import { StyleSheet, Text, TouchableOpacity } from "react-native";
 import { noAction } from "../../helpers/noAction";
 import Colors from "../../config/colors";
 
+const defaultBorderColor = "rgba(0,0,0,0.2)";
+
 function Color({
   color,
   selected = false,
-  icon = "✔",
+  icon = null,
   onColorChange = noAction
 }) {
+  const borderColor = selected ? "#fcfcfc" : defaultBorderColor;
+
   return (
     <TouchableOpacity
       onPress={() => onColorChange(color)}
-      style={[styles.color, { backgroundColor: color }]}
+      style={[styles.color, { backgroundColor: color, borderColor }]}
     >
       {selected && (
         <Text
@@ -29,8 +33,7 @@ function Color({
 
 const styles = StyleSheet.create({
   color: {
-    borderWidth: 1,
-    borderColor: "rgba(0,0,0,0.2)",
+    borderWidth: 2,
     alignItems: "center",
     justifyContent: "center",
     width: 30,

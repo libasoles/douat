@@ -31,7 +31,7 @@ const defaultColors = [
 function ColorPalette({
   colors = defaultColors,
   selectedColor,
-  icon = "✔",
+  icon = null,
   onSelect = noAction
 }) {
   return (

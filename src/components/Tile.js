@@ -1,5 +1,6 @@
 import React, { useCallback } from "react";
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
+
 import { noAction } from "../helpers/noAction";
 import Colors from "../config/colors";
 
@@ -8,19 +9,16 @@ const defaultBackground = Colors.none;
 
 function Tile({
   symbol,
-  isSelected = false,
   color = defaultColor,
-  bgColor = defaultBackground,
-  separation,
+  backgroundColor = defaultBackground,
+  style,
   onSelect = noAction
 }) {
   const action = useCallback(() => onSelect(symbol), [onSelect, symbol]);
 
-  const backgroundColor = isSelected ? bgColor : defaultBackground;
-
   return (
     <TouchableOpacity onPress={action} underlayColor="white">
-      <Text style={[styles.tile, { color, backgroundColor, ...separation }]}>
+      <Text style={[styles.tile, { color, backgroundColor, ...style }]}>
         {symbol}
       </Text>
     </TouchableOpacity>

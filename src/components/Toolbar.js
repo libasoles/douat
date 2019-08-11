@@ -1,20 +1,25 @@
 import React from "react";
-import { Button, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 
 import Colors from "../config/colors";
 import { noAction } from "../helpers/noAction";
 import IconButton from "./IconButton";
 
-function Toolbar({ reset = noAction, undo = noAction, save = noAction }) {
+function Toolbar({
+  reset = noAction,
+  undo = noAction,
+  save = noAction,
+  share = noAction
+}) {
   return (
     <View style={styles.toolbar}>
       <View style={styles.left}>
-        <IconButton name="reset" action={reset} />
+        <IconButton name="recycle" action={reset} />
         <IconButton name="undo" action={undo} />
       </View>
       <View style={styles.right}>
-        <Button title={"Save"} onPress={save} />
-        <IconButton name="share" action={noAction} />
+        <IconButton name="download" action={save} />
+        <IconButton name="share" action={share} />
       </View>
     </View>
   );
@@ -22,7 +27,7 @@ function Toolbar({ reset = noAction, undo = noAction, save = noAction }) {
 
 const styles = StyleSheet.create({
   toolbar: {
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.darker,
     flexDirection: "row",
     alignContent: "center",
     justifyContent: "space-between",
