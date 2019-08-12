@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
+    "clean": "cd android && ./gradlew clean",
     "start": "react-native start",
     "test": "jest",
     "link:assets": "react-native link",
@@ -12,6 +13,7 @@
   "dependencies": {
     "react": "16.8.6",
     "react-native": "0.60.4",
+    "react-native-pinch-zoom-view": "^0.2.0",
     "react-native-vector-icons": "^6.6.0"
   },
   "devDependencies": {

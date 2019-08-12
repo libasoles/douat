@@ -35,6 +35,7 @@ function TilesBar({
             backgroundColor={backgroundColor}
             onSelect={onSelect}
             style={{ marginRight: 2 }}
+            size={60}
           />
         );
       }}

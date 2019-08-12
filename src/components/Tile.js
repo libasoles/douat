@@ -11,14 +11,23 @@ function Tile({
   symbol,
   color = defaultColor,
   backgroundColor = defaultBackground,
+  size = 60,
   style,
   onSelect = noAction
 }) {
   const action = useCallback(() => onSelect(symbol), [onSelect, symbol]);
 
+  const fontSize = size / 0.72;
   return (
-    <TouchableOpacity onPress={action} underlayColor="white">
-      <Text style={[styles.tile, { color, backgroundColor, ...style }]}>
+    <TouchableOpacity
+      onPress={action}
+      underlayColor="white"
+      style={[styles.tile, { backgroundColor, width: size, height: size }]}
+    >
+      <Text
+        allowFontScaling={false}
+        style={[styles.symbol, { color, ...style, fontSize }]}
+      >
         {symbol}
       </Text>
     </TouchableOpacity>
@@ -27,11 +36,15 @@ function Tile({
 
 const styles = StyleSheet.create({
   tile: {
-    fontFamily: "BIT BLOCKS TTF BRK",
-    fontSize: 60,
     borderWidth: 0,
     padding: 0,
     margin: 0
+  },
+  symbol: {
+    fontFamily: "BIT BLOCKS TTF BRK",
+    textAlign: "center",
+    textAlignVertical: "center",
+    flex: 1
   }
 });
 

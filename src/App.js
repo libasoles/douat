@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { StatusBar, StyleSheet, View } from "react-native";
+import React, { useCallback, useState } from "react";
+import { Dimensions, StyleSheet, View } from "react-native";
 
 import Toolbar from "./components/Toolbar";
 import TilesBar from "./components/TilesBar";
@@ -8,6 +8,7 @@ import tiles from "./config/tiles";
 import Canvas from "./components/Canvas";
 import config from "./config";
 import ColorPalette from "./components/ColorPalette";
+import useCanvas from "./components/Canvas/useCanvas";
 import { noAction } from "./helpers/noAction";
 
 function getDefaultColor() {
@@ -24,10 +25,21 @@ const App = () => {
   const [currentColor, selectColor] = useState(defaultColor);
   const [currentTile, selectTile] = useState(defaultTile);
 
+  const tileSize = 40;
+  const numCols = Dimensions.get("window").width / tileSize;
+  const canvasHeight = Dimensions.get("window").height - 200;
+  const numRows = canvasHeight / tileSize;
+  const [canvasTiles, updateCanvas, resetCanvas] = useCanvas(numRows, numCols);
+
+  const addToCanvas = useCallback((x, y) => updateCanvas(x, y, currentTile), [
+    currentTile,
+    updateCanvas
+  ]);
+
   return (
     <View style={styles.container}>
       <Toolbar
-        reset={noAction}
+        reset={resetCanvas}
         undo={noAction}
         download={noAction}
         share={noAction}
@@ -38,7 +50,13 @@ const App = () => {
         onSelect={selectColor}
       />
       <View style={styles.canvas}>
-        <Canvas backgroundColor={currentColor} frontColor={Colors.white} />
+        <Canvas
+          tiles={canvasTiles}
+          backgroundColor={currentColor}
+          frontColor={Colors.white}
+          tileSize={tileSize}
+          onPress={addToCanvas}
+        />
       </View>
       <View style={styles.tilesBar}>
         <TilesBar
