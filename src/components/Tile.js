@@ -17,7 +17,7 @@ function Tile({
 }) {
   const action = useCallback(() => onSelect(symbol), [onSelect, symbol]);
 
-  const fontSize = size / 0.72;
+  const fontSize = size / 0.704;
   return (
     <TouchableOpacity
       onPress={action}
@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     fontFamily: "BIT BLOCKS TTF BRK",
     textAlign: "center",
     textAlignVertical: "center",
-    flex: 1
+    flex: 1,
   }
 });
 

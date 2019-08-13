@@ -1,4 +1,7 @@
 const config = {
+  tiles: {
+    size: 30,
+  },
   palette: [
     "#C0392B",
     "#E74C3C",

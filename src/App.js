@@ -19,22 +19,24 @@ function getDefaultTile() {
   return tiles[0];
 }
 
+function getDefaultTileSize() {
+  return config.tiles.size;
+}
+
 const App = () => {
   const defaultColor = getDefaultColor();
   const defaultTile = getDefaultTile();
   const [currentColor, selectColor] = useState(defaultColor);
   const [currentTile, selectTile] = useState(defaultTile);
 
-  const tileSize = 40;
-  const numCols = Dimensions.get("window").width / tileSize;
-  const canvasHeight = Dimensions.get("window").height - 200;
-  const numRows = canvasHeight / tileSize;
-  const [canvasTiles, updateCanvas, resetCanvas] = useCanvas(numRows, numCols);
-
-  const addToCanvas = useCallback((x, y) => updateCanvas(x, y, currentTile), [
+  const tileSize = getDefaultTileSize();
+  const { width, height } = Dimensions.get("window");
+  const { canvasTiles, updateCanvas, resetCanvas } = useCanvas({
+    width,
+    height,
     currentTile,
-    updateCanvas
-  ]);
+    emptySymbol: getDefaultTile()
+  });
 
   return (
     <View style={styles.container}>
@@ -55,7 +57,7 @@ const App = () => {
           backgroundColor={currentColor}
           frontColor={Colors.white}
           tileSize={tileSize}
-          onPress={addToCanvas}
+          onPress={updateCanvas}
         />
       </View>
       <View style={styles.tilesBar}>

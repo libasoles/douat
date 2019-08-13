@@ -1,6 +1,17 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
+import config from "../../config";
+import memoize from "../../helpers/memoization";
 
-export default function useCanvas(rows = 10, cols = 10, emptySymbol = " ") {
+const calculateRowsAndCols = memoize(function(width, height) {
+  const tileSize = config.tiles.size;
+  const numCols = Math.floor(width / tileSize);
+  const canvasHeight = height - 200;
+  const numRows = Math.floor(canvasHeight / tileSize);
+
+  return { numCols, numRows };
+});
+
+const prePopulateCanvas = memoize(function(rows, cols, emptySymbol) {
   const initialCanvas = [];
   const emptyRow = [];
   for (let x = 0; x < rows; x++) {
@@ -10,18 +21,32 @@ export default function useCanvas(rows = 10, cols = 10, emptySymbol = " ") {
     initialCanvas.push([...emptyRow]);
   }
 
-  const [tiles, updateCanvas] = useState(initialCanvas);
+  return initialCanvas;
+});
 
-  const update = (x, y, selectedTile) => {
-    const newTile = [...tiles];
+export default function useCanvas({
+  width,
+  height,
+  currentTile,
+  emptySymbol = " "
+}) {
+  const { numCols, numRows } = calculateRowsAndCols(width, height);
+  const emptyCanvas = prePopulateCanvas(numRows, numCols, emptySymbol);
 
-    newTile[x][y] = selectedTile;
-    updateCanvas(newTile);
-  };
+  const [tiles, updateCanvas] = useState(emptyCanvas);
 
-  const reset = () => {
-    updateCanvas(initialCanvas);
-  };
+  const update = useCallback(
+    (x, y) => {
+      const newCanvasState = [...tiles];
+      newCanvasState[x][y] = currentTile;
+      updateCanvas(newCanvasState);
+    },
+    [tiles, currentTile]
+  );
 
-  return [tiles, update, reset];
+  const reset = useCallback(() => {
+    updateCanvas(emptyCanvas);
+  }, [emptyCanvas]);
+
+  return { canvasTiles: tiles, updateCanvas: update, resetCanvas: reset };
 }

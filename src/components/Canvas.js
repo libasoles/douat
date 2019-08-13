@@ -49,7 +49,9 @@ const styles = StyleSheet.create({
   },
   canvas: {
     flex: 1,
-    flexDirection: "row"
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center"
   }
 });
 
