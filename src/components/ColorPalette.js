@@ -28,7 +28,7 @@ const defaultColors = [
   "#000000"
 ];
 
-function ColorPalette({
+const ColorPalette = React.memo(function ColorPalette({
   colors = defaultColors,
   selectedColor,
   icon = null,
@@ -49,7 +49,7 @@ function ColorPalette({
       </ScrollView>
     </View>
   );
-}
+});
 
 const styles = StyleSheet.create({
   colorContainer: {

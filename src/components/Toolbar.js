@@ -5,7 +5,7 @@ import Colors from "../config/colors";
 import { noAction } from "../helpers/noAction";
 import IconButton from "./IconButton";
 
-function Toolbar({
+const Toolbar = React.memo(function Toolbar({
   reset = noAction,
   undo = noAction,
   save = noAction,
@@ -23,7 +23,7 @@ function Toolbar({
       </View>
     </View>
   );
-}
+});
 
 const styles = StyleSheet.create({
   toolbar: {

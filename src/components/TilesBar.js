@@ -9,7 +9,7 @@ function keyExtractor(item) {
   return String(item);
 }
 
-function TilesBar({
+const TilesBar = React.memo(function TilesBar({
   tiles = [],
   selectedTile,
   onSelect = noAction,
@@ -41,7 +41,7 @@ function TilesBar({
       }}
     />
   );
-}
+});
 
 const styles = StyleSheet.create({
   tiles: {

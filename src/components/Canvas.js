@@ -1,11 +1,21 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
 
-import Tile from "./Tile";
 import { noAction } from "../helpers/noAction";
 import ZoomView from "../services/ZoomView";
+import TilesMap from "./Canvas/TilesMap";
 
-function Canvas({
+function areEqual(prevProps, nextProps) {
+  const tilesAreEqual = Object.is(prevProps.tiles, nextProps.tiles);
+  const backgroundColorIsEqual =
+    prevProps.backgroundColor === nextProps.backgroundColor;
+  const frontColorIsEqual =
+    prevProps.backgroundColor === nextProps.backgroundColor;
+
+  return tilesAreEqual && backgroundColorIsEqual && frontColorIsEqual;
+}
+
+const Canvas = React.memo(function Canvas({
   tiles = [],
   backgroundColor,
   frontColor,
@@ -20,27 +30,17 @@ function Canvas({
         minScale={1}
         maxScale={4}
       >
-        {tiles.map((row, i) => {
-          return (
-            <View key={i}>
-              {row.map((seal, j) => {
-                return (
-                  <Tile
-                    key={j}
-                    symbol={seal}
-                    color={frontColor}
-                    onSelect={() => onPress(i, j)}
-                    size={tileSize}
-                  />
-                );
-              })}
-            </View>
-          );
-        })}
+        <TilesMap
+          tiles={tiles}
+          frontColor={frontColor}
+          tileSize={tileSize}
+          onPress={onPress}
+        />
       </ZoomView>
     </View>
   );
-}
+},
+areEqual);
 
 const styles = StyleSheet.create({
   container: {

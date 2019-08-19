@@ -116,9 +116,9 @@ function useCapture({
   });
 
   // user event
-  const onSaveCapture = () => {
+  const onSaveCapture = useCallback(() => {
     setShouldAskForPermissionFlag(true);
-  };
+  }, [setShouldAskForPermissionFlag]);
 
   return {
     captureViewRef,
