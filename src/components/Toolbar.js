@@ -14,7 +14,7 @@ const Toolbar = React.memo(function Toolbar({
   return (
     <View style={styles.toolbar}>
       <View style={styles.left}>
-        <IconButton name="recycle" action={reset} />
+        <IconButton name="trash" action={reset} />
         <IconButton name="undo" action={undo} />
       </View>
       <View style={styles.right}>

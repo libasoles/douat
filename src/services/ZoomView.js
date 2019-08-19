@@ -44,8 +44,6 @@ export default class ZoomView extends Component {
       onPanResponderTerminationRequest: evt => true,
       onShouldBlockNativeResponder: evt => false
     });
-
-    this.selector = React.createRef();
   }
 
   handleStartShouldSetPanResponder = (e, gestureState) => {
