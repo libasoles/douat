@@ -10,6 +10,7 @@ import config from "./config";
 import ColorPalette from "./components/ColorPalette";
 import useCanvas from "./components/Canvas/useCanvas";
 import { noAction } from "./helpers/noAction";
+import { useCapture } from "./components/Canvas/useCapture";
 
 function getDefaultColor() {
   return config.palette[0];
@@ -38,12 +39,14 @@ const App = () => {
     emptySymbol: getDefaultTile()
   });
 
+  const { captureViewRef, onSaveCapture } = useCapture({ album: "Douat" });
+
   return (
     <View style={styles.container}>
       <Toolbar
         reset={resetCanvas}
         undo={noAction}
-        download={noAction}
+        save={onSaveCapture}
         share={noAction}
       />
       <ColorPalette
@@ -51,7 +54,10 @@ const App = () => {
         selectedColor={currentColor}
         onSelect={selectColor}
       />
-      <View style={styles.canvas}>
+      <View
+        style={[styles.canvas, { backgroundColor: currentColor }]}
+        ref={captureViewRef}
+      >
         <Canvas
           tiles={canvasTiles}
           backgroundColor={currentColor}

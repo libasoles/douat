@@ -18,7 +18,7 @@ function Canvas({
         style={styles.canvas}
         defaultScale={1}
         minScale={1}
-        maxScale={3}
+        maxScale={4}
       >
         {tiles.map((row, i) => {
           return (
