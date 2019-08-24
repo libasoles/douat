@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@react-native-community/cameraroll": "^1.2.1",
+    "immutable": "^4.0.0-rc.12",
     "react": "16.8.6",
     "react-native": "0.60.4",
     "react-native-pinch-zoom-view": "^0.2.0",

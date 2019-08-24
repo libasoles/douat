@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import { Dimensions, StyleSheet, View } from "react-native";
 
 import Toolbar from "./components/Toolbar";
@@ -17,7 +17,7 @@ function getDefaultColor() {
 }
 
 function getDefaultTile() {
-  return tiles[0];
+  return " ";
 }
 
 function getDefaultTileSize() {
@@ -25,18 +25,18 @@ function getDefaultTileSize() {
 }
 
 const App = () => {
-  const defaultColor = getDefaultColor();
   const defaultTile = getDefaultTile();
+  const defaultColor = getDefaultColor();
+  const [currentTile, setCurrentTile] = useState(defaultTile);
   const [currentColor, selectColor] = useState(defaultColor);
-  const [currentTile, selectTile] = useState(defaultTile);
 
   const tileSize = getDefaultTileSize();
   const { width, height } = Dimensions.get("window");
-  const { canvasTiles, updateCanvas, resetCanvas } = useCanvas({
+  const { canvasTiles, updateCanvas, resetCanvas, numCols } = useCanvas({
     width,
     height,
-    currentTile,
-    emptySymbol: getDefaultTile()
+    emptySymbol: getDefaultTile(),
+    currentTile
   });
 
   const { captureViewRef, onSaveCapture } = useCapture({ album: "Douat" });
@@ -60,17 +60,19 @@ const App = () => {
       >
         <Canvas
           tiles={canvasTiles}
+          numCols={numCols}
           backgroundColor={currentColor}
           frontColor={Colors.white}
           tileSize={tileSize}
-          onPress={updateCanvas}
+          onTilePressed={updateCanvas}
+          currentTile={currentTile}
         />
       </View>
       <View style={styles.tilesBar}>
         <TilesBar
           tiles={tiles}
           selectedTile={currentTile}
-          onSelect={selectTile}
+          onSelect={setCurrentTile}
           currentTileBackground={currentColor}
         />
       </View>

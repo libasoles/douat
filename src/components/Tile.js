@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     fontFamily: "BIT BLOCKS TTF BRK",
     textAlign: "center",
     textAlignVertical: "center",
-    flex: 1,
+    flex: 1
   }
 });
 

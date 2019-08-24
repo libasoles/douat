@@ -1,58 +1,47 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import * as Immutable from "immutable";
 
-import Tile from "../Tile";
 import { noAction } from "../../helpers/noAction";
+import Row from "./TilesMap/Row";
 
 function areEqual(prevProps, nextProps) {
   const tilesAreEqual = Object.is(prevProps.tiles, nextProps.tiles);
-  const frontColorIsEqual =
-    prevProps.backgroundColor === nextProps.backgroundColor;
+  const frontColorIsEqual = prevProps.frontColor === nextProps.frontColor;
+  const eventIsTheSame = prevProps.onPress === nextProps.onPress;
 
-  return tilesAreEqual && frontColorIsEqual;
+  return tilesAreEqual && frontColorIsEqual && eventIsTheSame;
 }
 
+type TilesMapProps = {
+  tiles: Immutable.OrderedMap,
+  frontColor: string,
+  tileSize: number,
+  onPress: () => {}
+};
+
 const TilesMap = React.memo(function TilesMap({
-  tiles = [],
+  tiles,
   frontColor,
   tileSize,
   onPress = noAction
-}) {
+}: TilesMapProps) {
   return (
     <>
-      {tiles.map((row, i) => {
+      {tiles.entrySeq().map(([x, data]) => {
         return (
-          <View key={i}>
-            {row.map((seal, j) => {
-              return (
-                <Tile
-                  key={j}
-                  symbol={seal}
-                  color={frontColor}
-                  onSelect={() => onPress(i, j)}
-                  size={tileSize}
-                />
-              );
-            })}
-          </View>
+          <Row
+            key={x}
+            rowNumber={x}
+            rowData={data}
+            frontColor={frontColor}
+            tileSize={tileSize}
+            onPress={onPress}
+          />
         );
       })}
     </>
   );
 },
 areEqual);
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    overflow: "hidden"
-  },
-  canvas: {
-    flex: 1,
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center"
-  }
-});
 
 export default TilesMap;
