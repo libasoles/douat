@@ -3,25 +3,23 @@ import { View } from "react-native";
 import * as Immutable from "immutable";
 import { is } from "immutable";
 
-import Tile from "../../Tile";
+import Tile from "./Tile";
 
 function areEqual(prevProps, nextProps) {
   const tilesAreEqual = is(prevProps.rowData, nextProps.rowData);
   const frontColorIsEqual = prevProps.frontColor === nextProps.frontColor;
-  const eventIsTheSame = prevProps.onPress === nextProps.onPress;
 
-  return tilesAreEqual && frontColorIsEqual && eventIsTheSame;
+  return tilesAreEqual && frontColorIsEqual;
 }
 
 type RowProps = {
   tiles: Immutable.OrderedMap,
   frontColor: string,
-  tileSize: number,
-  onPress: () => {}
+  tileSize: number
 };
 
 const Row = React.memo(
-  ({ rowNumber, rowData, frontColor, tileSize, onPress }: RowProps) => {
+  ({ rowNumber, rowData, frontColor, tileSize }: RowProps) => {
     return (
       <View>
         {rowData.entrySeq().map(([colNumber, tile]) => {
@@ -29,8 +27,6 @@ const Row = React.memo(
             <Tile
               key={colNumber}
               symbol={tile}
-              color={frontColor}
-              onSelect={() => onPress(rowNumber, colNumber)}
               size={tileSize}
             />
           );

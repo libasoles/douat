@@ -32,7 +32,13 @@ const App = () => {
 
   const tileSize = getDefaultTileSize();
   const { width, height } = Dimensions.get("window");
-  const { canvasTiles, updateCanvas, resetCanvas, numCols } = useCanvas({
+  const {
+    canvasTiles,
+    updateCanvas,
+    resetCanvas,
+    numCols,
+    numRows
+  } = useCanvas({
     width,
     height,
     emptySymbol: getDefaultTile(),
@@ -60,12 +66,11 @@ const App = () => {
       >
         <Canvas
           tiles={canvasTiles}
-          numCols={numCols}
           backgroundColor={currentColor}
-          frontColor={Colors.white}
           tileSize={tileSize}
           onTilePressed={updateCanvas}
-          currentTile={currentTile}
+          numCols={numCols}
+          numRows={numRows}
         />
       </View>
       <View style={styles.tilesBar}>

@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useState, useRef } from "react";
 import * as Immutable from "immutable";
 
 import config from "../../config";
@@ -40,13 +40,19 @@ export default function useCanvas({
   const emptyCanvas = prePopulateCanvas(numRows, numCols, emptySymbol);
   const [tiles, updateCanvas] = useState(emptyCanvas);
 
+  const selectedTile = useRef();
+  const tilesMap = useRef();
+  selectedTile.current = currentTile;
+  tilesMap.current = tiles;
   const update = useCallback(
     (x, y) => {
-      const newRowState = tiles.get(x).update(y, () => currentTile);
-      const newCanvasState = tiles.update(x, () => newRowState);
+      const newRowState = tilesMap.current
+        .get(x)
+        .update(y, () => selectedTile.current);
+      const newCanvasState = tilesMap.current.update(x, () => newRowState);
       updateCanvas(newCanvasState);
     },
-    [tiles, currentTile]
+    [tilesMap, selectedTile]
   );
 
   const reset = useCallback(() => {

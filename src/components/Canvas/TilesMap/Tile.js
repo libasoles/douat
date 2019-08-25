@@ -1,8 +1,7 @@
-import React, { useCallback } from "react";
-import { StyleSheet, Text, TouchableOpacity } from "react-native";
+import React from "react";
+import { StyleSheet, Text, View } from "react-native";
 
-import { noAction } from "../helpers/noAction";
-import Colors from "../config/colors";
+import Colors from "../../../config/colors";
 
 const defaultColor = Colors.white;
 const defaultBackground = Colors.none;
@@ -12,25 +11,19 @@ function Tile({
   color = defaultColor,
   backgroundColor = defaultBackground,
   size = 60,
-  style,
-  onSelect = noAction
+  style
 }) {
-  const action = useCallback(() => onSelect(symbol), [onSelect, symbol]);
   const fontSize = size / 0.704;
 
   return (
-    <TouchableOpacity
-      onPress={action}
-      underlayColor="white"
-      style={[styles.tile, { backgroundColor, width: size, height: size }]}
-    >
+    <View style={[styles.tile, { backgroundColor, width: size, height: size }]}>
       <Text
         allowFontScaling={false}
         style={[styles.symbol, { color, ...style, fontSize }]}
       >
         {symbol}
       </Text>
-    </TouchableOpacity>
+    </View>
   );
 }
 

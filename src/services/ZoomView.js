@@ -36,7 +36,8 @@ export default class ZoomView extends Component {
     this.distant = 150;
 
     this.gestureHandlers = PanResponder.create({
-      onStartShouldSetPanResponder: this.handleStartShouldSetPanResponder,
+      // don't respond to single touch to avoid shielding click on child components
+      onStartShouldSetPanResponder: evt => false,
       onMoveShouldSetPanResponder: this.handleMoveShouldSetPanResponder,
       onPanResponderGrant: this.handlePanResponderGrant,
       onPanResponderMove: this.handlePanResponderMove,
@@ -46,18 +47,8 @@ export default class ZoomView extends Component {
     });
   }
 
-  handleStartShouldSetPanResponder = (e, gestureState) => {
-    // don't respond to single touch to avoid shielding click on child components
-    return false;
-  };
-
   handleMoveShouldSetPanResponder = (e, gestureState) => {
-    return (
-      this.props.scalable &&
-      (Math.abs(gestureState.dx) > 2 ||
-        Math.abs(gestureState.dy) > 2 ||
-        gestureState.numberActiveTouches === 2)
-    );
+    return this.props.scalable && gestureState.numberActiveTouches === 2;
   };
 
   static calculateDelta(e) {
@@ -183,7 +174,7 @@ export default class ZoomView extends Component {
         ]}
         onLayout={this.getViewDimensions}
       >
-        {this.props.children}
+        {this.props.children({ scale: this.state.scale })}
       </View>
     );
   }
