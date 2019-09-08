@@ -77,6 +77,7 @@ const MainScreen = () => {
         <TilesBar
           tiles={tiles}
           selectedTile={currentTile}
+          defaultTile={defaultTile}
           onSelect={setCurrentTile}
           currentTileBackground={currentColor}
         />
