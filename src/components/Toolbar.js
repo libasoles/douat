@@ -8,8 +8,7 @@ import IconButton from "./IconButton";
 const Toolbar = React.memo(function Toolbar({
   reset = noAction,
   undo = noAction,
-  save = noAction,
-  share = noAction
+  save = noAction
 }) {
   return (
     <View style={styles.toolbar}>
@@ -19,7 +18,6 @@ const Toolbar = React.memo(function Toolbar({
       </View>
       <View style={styles.right}>
         <IconButton name="download" action={save} />
-        <IconButton name="share" action={share} />
       </View>
     </View>
   );

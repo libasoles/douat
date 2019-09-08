@@ -49,12 +49,7 @@ const MainScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Toolbar
-        reset={resetCanvas}
-        undo={noAction}
-        save={onSaveCapture}
-        share={noAction}
-      />
+      <Toolbar reset={resetCanvas} undo={noAction} save={onSaveCapture} />
       <ColorPalette
         colors={config.palette}
         selectedColor={currentColor}
