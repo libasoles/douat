@@ -23,13 +23,7 @@ const Row = React.memo(
     return (
       <View>
         {rowData.entrySeq().map(([colNumber, tile]) => {
-          return (
-            <Tile
-              key={colNumber}
-              symbol={tile}
-              size={tileSize}
-            />
-          );
+          return <Tile key={colNumber} symbol={tile} size={tileSize} />;
         })}
       </View>
     );

@@ -21,7 +21,8 @@ const Canvas = function Canvas({
 
       const isWithinBoundingBox =
         x >= 0 && y >= 0 && x < numCols && y < numRows;
-      if (isWithinBoundingBox) onTilePressed(x, y);
+
+      if (isWithinBoundingBox) onTilePressed({ x, y });
     },
     [tileSize, onTilePressed, numCols, numRows]
   );

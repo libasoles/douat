@@ -9,7 +9,7 @@ import Canvas from "../../components/Canvas";
 import config from "../../config";
 import ColorPalette from "../../components/ColorPalette";
 import { noAction } from "../../helpers/noAction";
-import useCanvas from "../../components/Canvas/useCanvas";
+import calculateRowsAndCols from "../../services/calculateCanvasDimension";
 import { useCapture } from "../../components/Canvas/useCapture";
 
 type MainScreenViewProps = {
@@ -19,7 +19,17 @@ type MainScreenViewProps = {
   currentColor: string,
   currentTile: string,
   setCurrentTile: () => {},
-  setCurrentColor: () => {}
+  setCurrentColor: () => {},
+  initCanvas: ({
+    numRows: number,
+    numCols: number
+  }) => {},
+  updateCanvas: ({
+    x: number,
+    y: number,
+    tile: string
+  }) => {},
+  resetCanvas: () => {}
 };
 
 const MainScreenView = ({
@@ -29,21 +39,18 @@ const MainScreenView = ({
   currentColor,
   currentTile,
   setCurrentTile,
-  setCurrentColor
+  setCurrentColor,
+  initCanvas,
+  updateCanvas,
+  resetCanvas,
+  canvas
 }: MainScreenViewProps) => {
-  const { width, height } = screen;
-  const {
-    canvasTiles,
-    updateCanvas,
-    resetCanvas,
-    numCols,
-    numRows
-  } = useCanvas({
-    width,
-    height,
-    emptySymbol: defaultTile,
-    currentTile
-  });
+  const shouldInitCanvas = canvas.tiles.size === 0;
+  if (shouldInitCanvas) {
+    const { width, height } = screen;
+    const { numCols, numRows } = calculateRowsAndCols(width, height);
+    initCanvas({ numRows, numCols });
+  }
 
   const { captureViewRef, onSaveCapture } = useCapture({ album: "Douat" });
 
@@ -60,12 +67,12 @@ const MainScreenView = ({
         ref={captureViewRef}
       >
         <Canvas
-          tiles={canvasTiles}
+          tiles={canvas.tiles}
           backgroundColor={currentColor}
           tileSize={defaultTileSize}
           onTilePressed={updateCanvas}
-          numCols={numCols}
-          numRows={numRows}
+          numCols={canvas.numCols}
+          numRows={canvas.numRows}
         />
       </View>
       <View style={styles.tilesBar}>
