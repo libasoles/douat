@@ -7,6 +7,7 @@ import IconButton from "./IconButton";
 
 const Toolbar = React.memo(function Toolbar({
   reset = noAction,
+  canUndo = false,
   undo = noAction,
   save = noAction
 }) {
@@ -14,7 +15,7 @@ const Toolbar = React.memo(function Toolbar({
     <View style={styles.toolbar}>
       <View style={styles.left}>
         <IconButton name="trash" action={reset} />
-        <IconButton name="undo" action={undo} />
+        <IconButton name="undo" disabled={!canUndo} action={undo} />
       </View>
       <View style={styles.right}>
         <IconButton name="download" action={save} />

@@ -1,5 +1,6 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
+import * as Immutable from "immutable";
 
 import Toolbar from "../../components/Toolbar";
 import TilesBar from "../../components/TilesBar";
@@ -8,7 +9,6 @@ import tiles from "../../config/tiles";
 import Canvas from "../../components/Canvas";
 import config from "../../config";
 import ColorPalette from "../../components/ColorPalette";
-import { noAction } from "../../helpers/noAction";
 import calculateRowsAndCols from "../../services/calculateCanvasDimension";
 import { useCapture } from "../../components/Canvas/useCapture";
 
@@ -20,6 +20,7 @@ type MainScreenViewProps = {
   currentTile: string,
   setCurrentTile: () => {},
   setCurrentColor: () => {},
+  canvas: Immutable.OrderedMap,
   initCanvas: ({
     numRows: number,
     numCols: number
@@ -29,7 +30,9 @@ type MainScreenViewProps = {
     y: number,
     tile: string
   }) => {},
-  resetCanvas: () => {}
+  resetCanvas: () => {},
+  canUndo: boolean,
+  onUndo: () => {}
 };
 
 const MainScreenView = ({
@@ -40,10 +43,12 @@ const MainScreenView = ({
   currentTile,
   setCurrentTile,
   setCurrentColor,
+  canvas,
   initCanvas,
   updateCanvas,
   resetCanvas,
-  canvas
+  onUndo,
+  canUndo
 }: MainScreenViewProps) => {
   const shouldInitCanvas = canvas.tiles.size === 0;
   if (shouldInitCanvas) {
@@ -56,7 +61,12 @@ const MainScreenView = ({
 
   return (
     <View style={styles.container}>
-      <Toolbar reset={resetCanvas} undo={noAction} save={onSaveCapture} />
+      <Toolbar
+        reset={resetCanvas}
+        canUndo={canUndo}
+        undo={onUndo}
+        save={onSaveCapture}
+      />
       <ColorPalette
         colors={config.palette}
         selectedColor={currentColor}

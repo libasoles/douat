@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import { ActionCreators as UndoActionCreators } from "redux-undo";
 
 import { setCurrentColor, setCurrentTile } from "../store/ducks/app";
 import { initCanvas, resetCanvas, updateCanvas } from "../store/ducks/canvas";
@@ -12,7 +13,8 @@ function mapStateToProps({ app, canvas }) {
     defaultTileSize: app.defaultTileSize,
     currentColor: app.currentColor,
     currentTile: app.currentTile,
-    canvas
+    canvas: canvas.present,
+    canUndo: canvas.past.length > 0
   };
 }
 
@@ -22,7 +24,8 @@ function mapDispatchToProps(dispatch) {
     setCurrentTile: tile => dispatch(setCurrentTile(tile)),
     initCanvas: params => dispatch(initCanvas(params)),
     updateCanvas: params => dispatch(updateCanvas(params)),
-    resetCanvas: () => dispatch(resetCanvas())
+    resetCanvas: () => dispatch(resetCanvas()),
+    onUndo: () => dispatch(UndoActionCreators.undo())
   };
 }
 
