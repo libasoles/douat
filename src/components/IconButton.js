@@ -9,11 +9,16 @@ function IconButton({
   name,
   size = 25,
   color = Colors.light,
+  disabledColor = Colors.dark,
+  disabled = false,
   action = noAction
 }) {
   return (
-    <TouchableOpacity onPress={action} style={styles.icon}>
-      <Icon name={name} size={size} color={color} />
+    <TouchableOpacity
+      onPress={!disabled ? action : noAction}
+      style={styles.icon}
+    >
+      <Icon name={name} size={size} color={!disabled ? color : disabledColor} />
     </TouchableOpacity>
   );
 }

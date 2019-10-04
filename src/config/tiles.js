@@ -1,5 +1,6 @@
+export const emptyTile = " ";
+
 export default [
-  ...[" "],
   ...["", ""],
   ...["x", "y", "z"],
   ...["", "", ""],

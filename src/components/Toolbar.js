@@ -5,25 +5,24 @@ import Colors from "../config/colors";
 import { noAction } from "../helpers/noAction";
 import IconButton from "./IconButton";
 
-function Toolbar({
+const Toolbar = React.memo(function Toolbar({
   reset = noAction,
+  canUndo = false,
   undo = noAction,
-  save = noAction,
-  share = noAction
+  save = noAction
 }) {
   return (
     <View style={styles.toolbar}>
       <View style={styles.left}>
-        <IconButton name="recycle" action={reset} />
-        <IconButton name="undo" action={undo} />
+        <IconButton name="trash" action={reset} />
+        <IconButton name="undo" disabled={!canUndo} action={undo} />
       </View>
       <View style={styles.right}>
         <IconButton name="download" action={save} />
-        <IconButton name="share" action={share} />
       </View>
     </View>
   );
-}
+});
 
 const styles = StyleSheet.create({
   toolbar: {
